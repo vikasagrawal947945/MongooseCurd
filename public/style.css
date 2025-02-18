@@ -1,0 +1,26 @@
+ body {
+      margin-left: 20px;
+ }
+
+ .chats {
+      background-color: aliceblue;
+      padding: 20px;
+      text-align: center;
+      border-radius: 16px;
+      margin-top: 20px;
+      margin-right: 50px;
+      display: inline-block;
+      font-weight: bold;
+      width: 300px;
+ }
+
+ .msg {
+      background-color: dodgerblue;
+      color: white;
+ }
+
+ .btn {
+      display: inline;
+      color: white;
+      padding: 10px
+ }
