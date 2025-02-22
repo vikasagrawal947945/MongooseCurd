@@ -34,6 +34,7 @@ app.get("/chats" , async(req,res) =>{
    res.render("index.ejs" ,{chats});
 });
 app.get("/chats/new", (req,res)=>{
+
     res.render("new.ejs");
 })
 
@@ -57,22 +58,30 @@ app.get("/chats/:id/edit",  async (req,res) => {
     res.render("edit.ejs", {Chat});
 });
  // show route
- app.get("/chats/:id" ,async(req,res)=>{
+ app.get("/chats/:id" ,async(req,res, next)=>{
+     try{
     let {id} = req.params;
     let Chat = await chat.findById(id);
     if(!Chat) {
-         throw new ExpressError(404, "Page not foud");
+        next(new ExpressError(404, "Page not foud"));
          }
      res.render("edit.ejs" , {Chat});
+        }catch(err){
+             next(err);
+        }
  });
 
 
 app.put("/chats/:id" , async(req,res)=>{
+    try{
     let {id} = req.params;
     let {newmsg} = req.body;
     let updatedChat =  await chat.findByIdAndUpdate(id , ({message : newmsg}));
     console.log(updatedChat);
     res.redirect("/chats")  // get request ki chat wali route pe chala jayega
+    }catch(err){
+        next(err);
+    }
 });
  app.delete("/chats/:id" , (req,res)=>{
      let {id} = req.params;
@@ -92,7 +101,7 @@ app.put("/chats/:id" , async(req,res)=>{
 //Error handling Middleware
  app.use((err,req,res,next)=>{
      let{ status ,message} = err;
-     res.status(status).send(messaage); });
+     res.status(status).send(message); });
  
  
  app.listen( 3000, ()=>{
